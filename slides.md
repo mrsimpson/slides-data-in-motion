@@ -1,4 +1,3 @@
-
 ---
 title: Data in Motion – about being RESTless
 transition: fade-out
@@ -236,11 +235,6 @@ _"generate a picture illustrating client service communication in micro services
 
 ### Restful Limitations in Handling Real-Time Data
 
-<style>
-    ul {padding-top: 1rem; list-style-type: none}
-    li {padding: 1rem; item-marker: none}
-</style>
-
 - Latency
 - Scalability
 - Statelessness
@@ -261,10 +255,6 @@ layout: center
 
 ### Characteristics of a Streaming Data Architecture
 
-<style>
-    ul {padding-top: 1rem; list-style-type: none}
-    li {padding: 1rem; item-marker: none}
-</style>
 
 - Continuous data flow
 - Real-time processing
@@ -301,11 +291,6 @@ layout: center
 
 ### Advantages over REST
 
-<style>
-    ul {padding-top: 1rem; list-style-type: none}
-    li {padding: 1rem; item-marker: none}
-</style>
-
 - Decoupling
 - Scalability
 - Real-time processing
@@ -321,11 +306,6 @@ layout: center
 ---
 
 ### Key Components of Streaming Data Architecture
-
-<style>
-    ul {padding-top: 1rem; list-style-type: none}
-    li {padding: 1rem; item-marker: none}
-</style>
 
 - **Messaging Systems** like Kafka, RabbitMQ
 - **Stream Processing Frameworks** like Apache Flink, Apache Spark Streaming, Azure Streaming Analytics
@@ -429,16 +409,11 @@ Streaming systems often have built-in fault-tolerance and data recovery mechanis
 ---
 layout: statement
 ---
-<style>
-.statement {font-size: 2rem; line-height: unset; font-style: italic}
-</style>
 
-<div class="statement">
 Ok, you got me. we need event stream processing.
-</div>
-<div class="statement">
+
 We already got Kafka, we're fine... No?
-</div>
+
 ---
 layout: two-cols
 ---
@@ -447,13 +422,14 @@ layout: two-cols
 
 <style>
     h2 {display: none}
+    h3 {min-height: 6rem}
 </style>
 
-### What about Spring Cloud, Node-Streams, AWS SNS + Lambda
+### What about Spring Cloud, Node-Streams, AWS SNS + Lambda?
 
 **Stateless** processing
 
-- one-by-one-processing
+- One-By-One-processing
 - Filtering
 - Mapping (data enrichment)
 
@@ -483,12 +459,9 @@ layout: two-cols
 layout: image-right
 image: /flink-squirrel-stream-hazelnut.webp
 ---
-
-## Stream processing with Apache Flink
-
-<style>
-    h2 {margin: auto}
-</style>
+<div class="align-middle">
+<h2>Stream processing with Apache Flink</h2>
+</div>
 
 ---
 layout: center
@@ -497,48 +470,167 @@ layout: center
 ### Integration of Flink into the streaming landscape
 
 
-![The Flink-Kafka-ecosystem](/public/flink-kafka-ecosystem.png)
+![The Flink-Kafka-ecosystem](/flink-kafka-ecosystem.png)
 
 ---
 
 
 ### Usecases
 
-<style>
-    ul {padding-top: 1rem; list-style-type: none}
-    li {padding: 1rem; item-marker: none}
-</style>
-
 - Event Driven Applications
+- Streaming ETL pipelines
 - Realtime analytics
-- Streaming pipelines
 
 <!-- https://www.infoworld.com/article/2336241/3-dynamic-use-cases-for-apache-flink-and-stream-processing.html -->
 
 <!--
-- Event Driven Applications
+- **Event Driven Applications**
   trigger actions on events, including complex event processing (CEP, which includes identifying patterns in the order of events)
-- Realtime analytics
+- **Realtime analytics**
   Provide realtime-insights into aggregated events
-- Streaming pipelines
+- **Streaming pipelines**
   Continuously ingest data into warehouses for further (state-oriented) analysis
 -->
+
+---
+layout: center
+---
+
+#### Event Driven Applications
+
+![Event driven Application Architecture](/spaf_0105.png)
+
+<!--
+
+Event-driven applications are stateful streaming applications that ingest event streams and process the events with application-specific business logic. Depending on the business logic, an event-driven application can trigger actions such as sending an alert or an email or write events to an outgoing event stream to be consumed by another event-driven application.
+
+Event-driven applications are an evolution of microservices. They communicate via event logs instead of REST calls and hold application data as local state instead of writing it to and reading it from an external datastore
+
+_Source: Stream Processing with Apache Flink by Fabian Hueske_
+-->
+
+---
+layout: center
+---
+
+#### Streaming ETL pipelines
+
+<v-click hide>
+<img src="/spaf_0107.png" position="absolute">
+</v-click>
+
+
+<v-click at="1">
+<img src="/spaf_0107_only_speed.png">
+</v-click>
+
+
+<!--
+
+Traditional Lambda-Architectures have significant drawbacks:
+
+- it requires two semantically equivalent implementations of the application logic for two separate processing systems with different APIs. 
+- the results computed by the stream processor are only approximate (might be overriden as the Batch-results are available).
+
+The Third-Gen-Stream-Processors** addressed the dependency of results on the timing and order of arriving events**. In combination with **exactly-once failure semantics**, systems of this generation are the first open source stream processors capable of computing consistent and accurate results.
+
+-->
+
+---
+layout: center
+---
+
+#### Realtime analytics (aka. "Streaming Analytics")
+
+![Streaming Analytics Architecture](/spaf_0106.png)
+
+<!--
+
+Instead of waiting to be periodically triggered, a streaming analytics application continuously ingests streams of events and updates its result by incorporating the latest events with low latency. This is similar to the maintenance techniques database systems use to update materialized views.
+
+_Source: Stream Processing with Apache Flink by Fabian Hueske_
+-->
+
 
 ---
 
 ### Which problems does Flink solve
 
-- Data locality
-- Scalability
-- Delivery guarantees
+<div class="hypothesis">
+Apache Flink solves a lot of issues you might not even be aware of you've actually got them...
+</div>
 
+- Event-Time
+- Consistency guarantees
+- Data locality and Scalability
+- A Stream-First-Application programming model
+
+<!--
+Apache Flink is a third-generation distributed stream processor with a competitive feature set. It provides **accurate stream processing with high throughput and low latency at scale**. In particular, the following features make Flink stand out:
+
+**Event-time semantics provide consistent and accurate results despite out-of-order events**. Processing-time semantics can be used for applications with very low latency requirements.
+
+**Exactly-once** means that not only will there be no event loss, but also updates on the internal state will be applied exactly once for each event. In essence, exactly-once guarantees mean that our application will provide the correct result, as though a failure never happened.
+
+Millisecond latencies while processing millions of events per second. Flink applications can be scaled to run on thousands of cores.
+
+Layered APIs with varying tradeoffs for expressiveness and ease of use. 
+
+Connectors to the most commonly used storage systems such as Apache Kafka, Apache Cassandra, Elasticsearch, JDBC, Kinesis, and (distributed) filesystems such as HDFS and S3.
+
+Ability to run streaming applications 24/7 with very little downtime due to its highly available setup (no single point of failure), tight integration with Kubernetes, YARN, and Apache Mesos, fast recovery from failures, and the ability to dynamically scale jobs.
+
+Ability to update the application code of jobs and migrate jobs to different Flink clusters without losing the state of the application.
+
+_Source: Stream Processing with Apache Flink by Fabian Hueske_
+
+-->
+
+---
+layout: statement
+---
+
+#### Event time and watermarks
+
+<style>
+    h4 {display: none}
+</style>
+
+
+Event time is the time when an event in the stream actually happened. Event time is based on a timestamp that is attached to the events of the stream. 
+
+<!-- 
+Timestamps usually exist inside the event data before they enter the processing pipeline (e.g., the event creation time)
+-->
+
+---
+layout: center
+---
+![A watermarked stream](/spaf_0308.png)
+
+<!--
+Watermarks are determined (extracted) from records
+
+**When** they will be emitted, can be configured / implemented
+-->
+
+
+---
+layout: two-cols
 ---
 
 #### Data locality
 
-<img alt="Memory Hierarchy and read access latency" src="/memory-hierarchy.png" class="m-10 h-90"/>
-<div class="source">https://cs.brown.edu/courses/csci1310/2020/assign/labs/lab4.html?spm=a2c65.11461447.0.0.47497f65FTyCWF</div>
+<img alt="Memory Hierarchy and read access latency" src="/memory-hierarchy.png" class="pd-20 h-50"/>
+<ImageSource url="https://cs.brown.edu/courses/csci1310/2020/assign/labs/lab4.html?spm=a2c65.11461447.0.0.47497f65FTyCWF"/>
 
+<template #right>
+<v-click>
+<h4>Co-Location of memory and compute in Flink</h4>
+
+<img alt="In Flink, data of a task is located at the same node where operations on it are executed" src="/spaf_0104.png" class="pd-20 h-60"/>
+</v-click>
+</template>
 <!--
 Having data local at the same node in-memory will speed up our **read times by factor 1000**
 In one-by-one-processing, we constantly access data
@@ -563,6 +655,13 @@ What happens if the stream breaks? How do we recover
 
 ### Which problems does Flink produce
 
+<div class="hypothesis">
+Apache Flink solves a lot of issues you might not even be aware of you've actually got them...
+
+... but it also produces some you even more likely not thought about either
+</div>
+
+- Learning curve
 - State backend
 - Job manager / task-manager communication
 - Serialization

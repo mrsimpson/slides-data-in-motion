@@ -1,3 +1,43 @@
-.source {
-    font-size: 0.5rem
+h1,
+h2,
+h3,
+h4 {
+    padding-bottom: 1.5rem;
+}
+
+
+ul {
+    padding-top: 1rem;
+}
+
+li {
+    padding-bottom: 1rem;
+    list-style-type: none
+}
+
+/*********** Fixes for "default" theme *****************/
+
+.slidev-layout.statement p {
+    line-height: unset;
+    font-size: 2rem;
+    font-style: italic;
+}
+
+.slidev-layout.two-columns .col-right {
+    margin-left: 1rem
+}
+
+
+
+/************ Own "components" *********************/
+.hypothesis {
+    text-align: center;
+    backdrop-filter: contrast(0.8);
+    padding: 2rem;
+}
+
+.align-middle {
+    display: flex;
+    align-items: center;
+    height: 100%;
 }
