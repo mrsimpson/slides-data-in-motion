@@ -801,6 +801,21 @@ layout: statement
 ### So (why) should I give Flink a try?
 
 ---
+layout: statement
+---
+
+“you’re either using a framework, or you’re building your own framework.”
+
+<div class="">
+The React team team explaining their recommendation to build full-stack apps using Next.js
+The React native team explaining their recommendation to build React Native using Expo
+</div>
+<!--
+
+-->
+
+
+---
 layout: center
 ---
 
@@ -811,9 +826,6 @@ layout: center
 **Because Apache Flink is made for this**
 
 There are challenges to be solved, but there's always a Flink-native solution to it. Because it's a **mature** and **battle proven** technology.
-
-#### “you’re either using a framework, or you’re building your own framework.”
-
 -->
 
 ---
@@ -821,8 +833,7 @@ layout: two-cols
 ---
 
 <img alt="Flink Logo" src="/flink_squirrel_500.png" class="h-90" />
-
-- https://flink.apache.org/
+https://flink.apache.org/
 
 <template #right>
 
