@@ -1,10 +1,24 @@
 <template>
-<span class="sub-text">Source: {{props.url}}</span>
+    <span class="sub-text">Source: {{getSource()}}</span>
 </template>
-<script setup>
+
+<script setup lang="ts">
 const props = defineProps({
-    url: {type: String, required: true}
+    work: {type: String, required: false},
+    url: {type: String, required: false},
+    author: {type: String, required: false},
+    title: {type: String, required: false}
 })
+
+const getSource = () => {
+    switch (props.work) {
+        case 'spaf':
+            return "Stream Processing with Apache Flink by Fabian Hueske"
+        default:
+            return props.title || props.url
+    }
+}
+
 </script>
 
 <style scoped>

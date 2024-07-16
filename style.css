@@ -23,6 +23,16 @@ li {
     font-style: italic;
 }
 
+.slidev-layout.statement:has(p) {
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+        display: none;
+    }
+}
 .slidev-layout.two-columns .col-right {
     margin-left: 1rem
 }

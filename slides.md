@@ -235,13 +235,13 @@ _"generate a picture illustrating client service communication in micro services
 
 ### Restful Limitations in Handling Real-Time Data
 
-- Latency
 - Scalability
+- Latency
 - Statelessness
 
 <!--
-- **Latency**: Load of the server slows down the consumer
 - **Scalability**: Processing each consumer's requests increases the load of the serer
+- **Latency**: Load of the server slows down the consumer
 - **Statelessness**: Each request is independent, making real-time updates complex. We all love optimistic locking, don't we?
 -->
 
@@ -493,12 +493,12 @@ layout: center
 -->
 
 ---
-layout: center
----
 
 #### Event Driven Applications
 
 ![Event driven Application Architecture](/spaf_0105.png)
+
+<ImageSource work="spaf" />
 
 <!--
 
@@ -510,18 +510,18 @@ _Source: Stream Processing with Apache Flink by Fabian Hueske_
 -->
 
 ---
-layout: center
----
 
 #### Streaming ETL pipelines
 
 <v-click hide>
-<img src="/spaf_0107.png" position="absolute">
+<img src="/spaf_0107.png" class="h-70 absolute">
+<ImageSource work="spaf" />
 </v-click>
 
 
 <v-click at="1">
-<img src="/spaf_0107_only_speed.png">
+<img src="/spaf_0107_only_speed.png" class="h-70">
+<ImageSource work="spaf" />
 </v-click>
 
 
@@ -543,7 +543,7 @@ layout: center
 #### Realtime analytics (aka. "Streaming Analytics")
 
 ![Streaming Analytics Architecture](/spaf_0106.png)
-
+<ImageSource work="spaf" />
 <!--
 
 Instead of waiting to be periodically triggered, a streaming analytics application continuously ingests streams of events and updates its result by incorporating the latest events with low latency. This is similar to the maintenance techniques database systems use to update materialized views.
@@ -606,14 +606,15 @@ Timestamps usually exist inside the event data before they enter the processing 
 ---
 layout: center
 ---
+
 ![A watermarked stream](/spaf_0308.png)
+<ImageSource work="spaf" />
 
 <!--
-Watermarks are determined (extracted) from records
+Watermarks are determined (extracted) from records.
 
-**When** they will be emitted, can be configured / implemented
+**When** they will be emitted, can be configured / implemented.
 -->
-
 
 ---
 layout: two-cols
@@ -622,33 +623,109 @@ layout: two-cols
 #### Data locality
 
 <img alt="Memory Hierarchy and read access latency" src="/memory-hierarchy.png" class="pd-20 h-50"/>
-<ImageSource url="https://cs.brown.edu/courses/csci1310/2020/assign/labs/lab4.html?spm=a2c65.11461447.0.0.47497f65FTyCWF"/>
+<ImageSource url="https://cs.brown.edu/courses/csci1310/2020/assign/labs/lab4.html"/>
 
 <template #right>
 <v-click>
 <h4>Co-Location of memory and compute in Flink</h4>
 
 <img alt="In Flink, data of a task is located at the same node where operations on it are executed" src="/spaf_0104.png" class="pd-20 h-60"/>
+  <ImageSource work="spaf" />
 </v-click>
 </template>
+
 <!--
 Having data local at the same node in-memory will speed up our **read times by factor 1000**
-In one-by-one-processing, we constantly access data
+This is important, since in **one-by-one-processing**, we constantly access data.
+
+"Local" means that the physical memory in which the data resides **on the same compute node** where the physcial CPU host the computation over this data.
+
+Stateless architecures (be it REST or stateless streaming) mostly load data from a remote (on another node) location via network – and even a Redis-Cache via network is about 5ms – slow.
 -->
 
+---
+layout: statement
 ---
 
 #### Scalability
 
 Alright, let's keep data local. But what do we do if we scale horizontally?
 
+<!--
+Scaling horizontally means **adding new nodes** to which compute-demands/traffic is routed.
+
+When keeping state local, this means that the scaling process needs to be aware of where data is being processed.
+-->
+
+---
+layout: two-cols
 ---
 
-#### Delivery guarantees
+##### Keyed streams and keyed state
 
-What happens if the stream breaks? How do we recover
+<img alt="Figure 3-12. Tasks with keyed state" src="/spaf_0312.png" class="m-10 h-80" />
+<ImageSource work="spaf" />
+<template #right>
+<v-click>
+<h5>Scaling stateful (keyed) operators</h5>
+<img alt="Figure 3-13. Scaling an operator with keyed state out and in" src="/spaf_0313.png"  class="m-10 h-80"/>
+<ImageSource work="spaf" />
+</v-click>
+</template>
+<!--
+Flink allows developers to partition a stream by a logical key. 
 
-=> Timestamps, event time and watermarks
+All operations on a keyed stream will respect data locality: The operator instance of a Flink computational graph will get all items of the keyed stream which has the same key.
+-->
+
+---
+
+#### Consistency guarantees
+
+- Flink provides "Exactly Once" **processing guarantees** within the job graph
+- **Some sources and sinks** support this out-of-the-box too
+- Flink's **checkpointing mechanism** ensures guarantees in case of failures
+
+<!--
+Flink is a distributed data processing system, and as such, has to deal with failures such as **killed processes, failing machines, and interrupted network connections**. Since tasks maintain their state locally, Flink has to ensure that this **state is not lost and remains consistent** in case of a failure.
+
+Flink’s recovery mechanism is based on consistent checkpoints of application state. A consistent checkpoint of a stateful streaming application is a copy of the state of each of its tasks at a point when all tasks have processed exactly the same input.
+-->
+
+---
+layout: two-cols
+---
+
+##### Naive Checkpointing
+
+1. <span v-mark="{ color: 'red', type: 'circle' }">Pause</span> the ingestion of all input streams.
+2. Wait for all in-flight data to be completely processed, meaning all tasks have processed all their input data.
+3. Take a checkpoint by copying the state of each task to a remote, persistent storage. The checkpoint is complete when all tasks have finished their copies.
+4. Resume the ingestion of all streams.
+ 
+<template #right>
+<v-click>
+<h5>Flink's checkpointing</h5>
+
+1. Inject Checkpoint Barriers into stream
+2. Job manager initiates checkpoint
+3. Each operator externalizes its state
+4. Once all operators acknowledged, the checkpoint is consistent
+
+</v-click>
+
+<!--
+##### Flink’s Checkpointing Algorithm
+
+Flink’s recovery mechanism is based on consistent application checkpoints. The naive approach to taking a checkpoint from a streaming application—to **pause, checkpoint, and resume the application—is not practical for applications** that have even moderate latency requirements due to its “stop-the-world” behavior. 
+
+Instead, Flink implements checkpointing based on the Chandy–Lamport algorithm for **distributed snapshots. The algorithm does not pause the complete application but decouples checkpointing from processing**, so that some tasks continue processing while others persist their state. In the following, we explain how this algorithm works.
+
+Flink’s checkpointing algorithm uses a special type of record called a checkpoint barrier. Similar to watermarks, checkpoint barriers are injected by source operators into the regular stream of records and cannot overtake or be passed by other records. A checkpoint barrier carries a checkpoint ID to identify the checkpoint it belongs to and logically splits a stream into two parts. All state modifications due to records that precede a barrier are included in the barrier’s checkpoint and all modifications due to records that follow the barrier are included in a later checkpoint.
+
+The same mechanism can also be used for **savepoints**, which allow to externalize state at defined points in time (e. g. prior to an application upgrade)
+-->
+</template>
 
 
 ---
@@ -661,48 +738,94 @@ Apache Flink solves a lot of issues you might not even be aware of you've actual
 ... but it also produces some you even more likely not thought about either
 </div>
 
-- Learning curve
+- Complexity: Learning curve
+- Monitoring
 - State backend
 - Job manager / task-manager communication
-- Serialization
-- Monitoring
-
-
----
-
-## Challenges and Considerations
-
----
-
-### Complexity
-
-- Learning curve and operational complexity of streaming architecture
-- Mental model
+- Running and scaling the infrastructure (Choose your ~~poison~~ operations model)
 
 <!--
-Acknowledge the complexity involved in setting up and maintaining a streaming data architecture. Mention the steep learning curve and the operational challenges that can arise, such as managing data streams, ensuring fault tolerance, and scaling the system.
+
+Stream processing requires a **different mental model** compared to state-oriented application programming models. 
+
+Also, there's an **"event" in "eventual consistency"**. While Flink will make sure, that in the end, everything is processed consistently, there might be steps in between where some parts have been processed, while others are sill pending. This may require explanations to the user on the UI.
+
+Observing, how a continuosly running application behaves requires appropriate metrics. They deviate from what's common to observe for restful applications.
+
+The way, jobmanager and taskmanager interact, also with the state-backend, is not easy to understand. It's deeply integrated into the tooling.
 -->
 
 ---
 
-### Data Consistency
+### How respond to those challenges
 
-There's an "event" in eventual consistency
+<v-clicks>
 
+- Acknowledge it's a tricky problem
+- Start small in functional scope, but realistic wrt volume 
+- Include the other elements of the streaming archicture (Schema Registry!)
+- Set up custom metrics from the beginning
+- Start with a Managed Service (AWS or Azure)
+
+</v-clicks>
 <!--
-Discuss the challenges in maintaining data consistency in a streaming environment. Explain that because data is processed in real-time and often across distributed systems, ensuring consistency can be more complex compared to traditional architectures.
+
+[click]
+It's a tricky problem, but **it's a problem Flink is made for**. 
+
+Still, a tricky problem. Allow yourself and your developers time to learn!
+
+Flink provides multple APIs for different use cases, has great documentation, but is just a lot to learn. Java Streaming API, Python, TableAPI, SQL – The more abstract, the more to learn
+
+[click]
+A major benefit of Flink is **performance and scalability**. But this only works when employed properly. Pick use cases which stress your system right from the beginning.
+
+[click]
+As pictured earlier, Flink ~~is~~ can be the central piece of your streaming architecure. But don't forget the other pieces and how to bing them together. A **schema registry** might save you from tedious serialization issues down the stream, if you implement them from beginning.
+
+[click]
+Flink has an **awesome metrics system** which export very detailed information about the state of processing (offset lags, backpressure, parallelism)
+The metrics system is also easily extensible: Write your own custom metrics to observe how your stream is doing.
+
+[click]
+Jobmanager, Taskmanager, State-Backend does not need to be understood in detail, as Flink abstracts all this provisioning of compute.
+This changes drastically, if you want to operate Flink on your own though. Then, you need to completely dive-in in order to make it run elastically on your e. g. Kubernetes-Cluster.
+
+There are operators for Kubernetes, Apache Mesos and bare metal installations, but safest is to **start with a managed service**. It might not suit your particular usecase and could be optimized, but configuring them properly needs some experience.
 -->
 
 ---
+layout: statement
+---
 
-### Monitoring and Management
+### So (why) should I give Flink a try?
 
-- Importance of monitoring tools and management practices
-- Need for appropriate metrics
+---
+layout: center
+---
+
+![Flink is the hammer for event stream processing](/DALL·E-squirrel-with-hammer.webp)
 
 <!--
-Emphasize the importance of robust monitoring and management practices in streaming data architectures. Highlight the need for tools that can provide real-time visibility into data streams, detect anomalies, and manage system health to ensure smooth operation.
+
+**Because Apache Flink is made for this**
+
+There are challenges to be solved, but there's always a Flink-native solution to it. Because it's a **mature** and **battle proven** technology.
+
+#### “you’re either using a framework, or you’re building your own framework.”
+
 -->
 
 ---
+layout: two-cols
+---
 
+<img alt="Flink Logo" src="/flink_squirrel_500.png" class="h-90" />
+
+- https://flink.apache.org/
+
+<template #right>
+
+<img alt="Stream Processing with Apache Flink by Fabian Hueske and Vasiliki Kalavri" src="/spaf_cover.png" class="h-90" />
+
+</template>
