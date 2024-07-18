@@ -42,11 +42,11 @@ layout: statement
 ## Why does it matter? And why the hype?
 
 <!--
-"Data in Motion" is a term coined (probably) by Confluent
+"Data in Motion" is a term coined (probably) by Confluent.
 
-Confluent is a hyped company, major contributor to Apache Kafka, Apache Kafka is hyped in enterprises, so does this alone justify the hype?
+Confluent is a highly regarded company and a major contributor to Apache Kafka. While Apache Kafka is popular in enterprises, this alone doesn't justify the hype.
 
-No. It's because we try to **represent reality** in software systems.
+The real reason is that we strive to **represent reality** in software systems.
 -->
 
 ---
@@ -61,16 +61,17 @@ div {background-color: black}
 ![ "Things are now in motion that cannot be undone". Gandalf in "Return of the King"](/gandalf-things-in-motion.webp)
 
 <!--
-The real world mutates, but all **events that lead to those mutations are bound in time and space** – they are immutable
+The real world changes ("mutates") constantly, but all **events leading to those changes are fixed in time and space** – they are immutable.
 
-In software, we achieve consistently great results keeping the **representational gap** low.
+In software, we achieve consistently great results by keeping the **representational gap** low.
 
-You have a Sales Order on paper => Let's model a Sales Order Class and implement a `SalesOrder` interface – and store it in a `SALES_ORDER_HEADER` and `SALES_ORDER_ITEM` table in the database – or in a `SalesOrders` collection, if you use an object store.
+For example, a Sales Order on paper can be modeled as a Sales Order Class, implemented with a `SalesOrder` interface, and stored in a `SALES_ORDER_HEADER` and `SALES_ORDER_ITEM` table in a database – or in a `SalesOrders` collection if using an object store.
 
-Still, for ages, we mutated our persistence – because everything else would have been **too costly**
+Historically, we mutated our persistence – because everything else would have been **too costly**
 
-Now, that **storage is cheap**, we can finally close this eventual gap – and process those events
+Now that **storage is cheap**, we can finally close this "eventual" representational gap and process those events.
 -->
+
 
 ---
 layout: statement
@@ -364,10 +365,11 @@ layout: center
 
 Stream processing frameworks like Apache Flink and Apache Spark Streaming allow for **complex data processing operations on data streams in real-time**. Examples: **Apache Flink, Apache Spark Streaming, Azure Streaming Analytics**
 
-Streaming API **provide full-stack reactive user experiences** Examples: **Websocket, Server-sent events**
+Streaming APIs **provide full-stack reactive user experiences**. Examples: **Websocket, Server-sent events**
 
-NoSQL databases and data lakes **store vast amounts of real-time data efficiently**. Examples: HBase (Hadoop), Cassandra
+NoSQL databases and data lakes **store vast amounts of real-time data efficiently**. Examples: **HBase (Hadoop), Cassandra**
 -->
+
 
 ---
 
@@ -723,10 +725,10 @@ As software developers, we can say
 <!--
 Disclaimer: My mom didn't actually say that. I derived it from her words when she told me to clean up my room "NOW" when I was a child.
 
-As architects, we should wish for analysts to specify tolerated latency prior to designing a system. 
-Unfortunately, this decision is usually outside of the system boundary, but part of the context – and this context may vary
-
+As architects, we should wish for analysts to specify tolerated latency prior to designing a system.
+Unfortunately, this decision is usually outside of the system boundary but part of the context – and this context may vary.
 -->
+
 
 ---
 layout: two-cols
