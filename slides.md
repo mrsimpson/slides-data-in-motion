@@ -822,6 +822,13 @@ layout: two-cols
 
 ##### Naive Checkpointing
 
+<style>
+    h5 {
+        font-weight: 600;
+        margin-bottom: 1rem
+    }
+</style>
+
 1. <span v-mark="{ color: 'red', type: 'circle' }">Pause</span> the ingestion of all input streams.
 2. Wait for all in-flight data to be completely processed, meaning all tasks have processed all their input data.
 3. Take a checkpoint by copying the state of each task to a remote, persistent storage. The checkpoint is complete when all tasks have finished their copies.

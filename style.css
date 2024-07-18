@@ -10,7 +10,7 @@ ul {
     padding-top: 1rem;
 }
 
-li {
+ul li {
     padding-bottom: 1rem;
     list-style-type: none
 }
