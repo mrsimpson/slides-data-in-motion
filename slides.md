@@ -13,7 +13,6 @@ An introduction to event stream processing
 layout: center
 ---
 
-
 <div style="font-size: 3rem; margin-bottom: 2rem">
 How does your data behave?
 </div>
@@ -71,7 +70,6 @@ Historically, we mutated our persistence – because everything else would have 
 
 Now that **storage is cheap**, we can finally close this "eventual" representational gap and process those events.
 -->
-
 
 ---
 layout: statement
@@ -280,7 +278,6 @@ layout: center
 
 ### Characteristics of a Streaming Data Architecture
 
-
 - Continuous data flow
 - Real-time processing
 
@@ -328,7 +325,7 @@ layout: center
 - **Resilience:** Built-in mechanisms for error handling and recovery ensure robustness.
 -->
 
---- 
+---
 
 ### REST compared to Event Streaming – What's happening full-stack
 
@@ -341,10 +338,6 @@ layout: center
 <tr><td>Reporting is</td><td>OLAP</td><td>Just a view</td></tr>
 </v-clicks>
 </table>
-
-<!--
-
--->
 
 ---
 
@@ -370,7 +363,6 @@ Streaming APIs **provide full-stack reactive user experiences**. Examples: **Web
 NoSQL databases and data lakes **store vast amounts of real-time data efficiently**. Examples: **HBase (Hadoop), Cassandra**
 -->
 
-
 ---
 
 ### How does this affect the system
@@ -394,7 +386,6 @@ NoSQL databases and data lakes **store vast amounts of real-time data efficientl
     p {margin-bottom: 0.5rem}
 
 </style>
-
 
 <div class="comparison header">
     <p>
@@ -489,13 +480,14 @@ layout: two-cols
 
 <template #right>
 <v-clicks>
+
 <div>Windowing<img src="/marbles-windowing.png" alt="Windowing" /></div>
 <div>Complex Event Processing<img src="/marbles-cep.png" alt="Complex Event Processing" /></div>
 <p style="margin-top: 1rem" class="dialogue">But that's also trivial, just some sort of "reduce", no?</p>
 <p class="dialogue">Only as long as you are running on a single, reliable node. There’s STATE involved, buddy!</p>
 </v-clicks>
 </template>
-    
+
 ---
 layout: two-cols
 ---
@@ -513,6 +505,7 @@ layout: two-cols
 - Mapping (data enrichment)
 
 <template #right>
+
 <h3>So what do we need state for?</h3>
 
 **Stateful** computations
@@ -524,7 +517,6 @@ layout: two-cols
 </template>
 
 <!--
-
 What about Spring Cloud, Node-Streams, AWS SNS + Lambda? All are
 **Stateless**
 - All these solutions don't offer built-in-options for state
@@ -541,6 +533,7 @@ What about Spring Cloud, Node-Streams, AWS SNS + Lambda? All are
 layout: image-right
 image: /flink-squirrel-stream-hazelnut.webp
 ---
+
 <div class="align-middle">
 <h2>Stream processing with Apache Flink</h2>
 </div>
@@ -554,7 +547,6 @@ layout: center
 ![The Flink-Kafka-ecosystem](/flink-kafka-ecosystem.png)
 
 ---
-
 
 ### Use cases
 
@@ -582,7 +574,6 @@ layout: center
 <ImageSource work="spaf" />
 
 <!--
-
 Event-driven applications are stateful streaming applications that ingest event streams and process the events with application-specific business logic. Depending on the business logic, an event-driven application can trigger actions such as sending an alert or an email or write events to an outgoing event stream to be consumed by another event-driven application.
 
 Event-driven applications are an evolution of microservices. They communicate via event logs instead of REST calls and hold application data as local state instead of writing it to and reading it from an external datastore
@@ -599,22 +590,18 @@ _Source: Stream Processing with Apache Flink by Fabian Hueske_
 <ImageSource work="spaf" />
 </v-click>
 
-
 <v-click at="1">
 <img src="/spaf_0107_only_speed.png" class="h-70">
 <ImageSource work="spaf" />
 </v-click>
 
-
 <!--
-
 Traditional Lambda-Architectures have significant drawbacks:
 
 - it requires two semantically equivalent implementations of the application logic for two separate processing systems with different APIs. 
 - the results computed by the stream processor are only approximate (might be overridden as the Batch-results are available).
 
 The Third-Gen-Stream-Processors** addressed the dependency of results on the timing and order of arriving events**. In combination with **exactly-once failure semantics**, systems of this generation are the first open source stream processors capable of computing consistent and accurate results.
-
 -->
 
 ---
@@ -625,13 +612,12 @@ layout: center
 
 ![Streaming Analytics Architecture](/spaf_0106.png)
 <ImageSource work="spaf" />
-<!--
 
+<!--
 Instead of waiting to be periodically triggered, a streaming analytics application continuously ingests streams of events and updates its result by incorporating the latest events with low latency. This is similar to the maintenance techniques database systems use to update materialized views.
 
 _Source: Stream Processing with Apache Flink by Fabian Hueske_
 -->
-
 
 ---
 
@@ -665,7 +651,6 @@ Ability to run streaming applications **24/7 with very little downtime due to it
 Ability to update the application code of jobs and **migrate** jobs to different Flink clusters **without losing the state** of the application.
 
 _Source: Stream Processing with Apache Flink by Fabian Hueske_
-
 -->
 
 ---
@@ -678,10 +663,9 @@ layout: statement
     h4 {display: none}
 </style>
 
+Event time is the time when an event in the stream actually happened. Event time is based on a timestamp that is attached to the events of the stream.
 
-Event time is the time when an event in the stream actually happened. Event time is based on a timestamp that is attached to the events of the stream. 
-
-<!-- 
+<!--
 Timestamps usually exist inside the event data before they enter the processing pipeline (e.g., the event creation time)
 -->
 
@@ -696,6 +680,9 @@ layout: center
 Watermarks are determined (extracted) from records.
 
 **When** they will be emitted, can be configured / implemented.
+Watermarks are special markers in the data stream that indicate the progress of event time.
+
+They are used to handle out-of-order events in stream processing and help the system to determine when it can safely process and emit results for a particular window, even if some events are slightly delayed.
 -->
 
 ---
@@ -709,6 +696,7 @@ Did somebody say "Real-time"?
 ---
 
 My mom says
+
 <div class="hypothesis">"Real-time is when a system is faster than I can react"</div>
 
 <v-clicks>
@@ -729,7 +717,6 @@ As architects, we should wish for analysts to specify tolerated latency prior to
 Unfortunately, this decision is usually outside of the system boundary but part of the context – and this context may vary.
 -->
 
-
 ---
 layout: two-cols
 ---
@@ -741,6 +728,7 @@ layout: two-cols
 
 <template #right>
 <v-click>
+
 <h4>Co-Location of memory and compute in Flink</h4>
 
 <img alt="In Flink, data of a task is located at the same node where operations on it are executed" src="/spaf_0104.png" class="pd-20 h-60"/>
@@ -786,6 +774,7 @@ layout: two-cols
 <ImageSource work="spaf" />
 </v-click>
 </template>
+
 <!--
 Flink allows developers to partition a stream by a logical key. 
 
@@ -805,6 +794,27 @@ Flink is a distributed data processing system, and as such, has to deal with fai
 
 Flink’s recovery mechanism is based on consistent checkpoints of application state. A consistent checkpoint of a stateful streaming application is a copy of the state of each of its tasks at a point when all tasks have processed exactly the same input.
 -->
+
+---
+layout: center
+---
+
+##### So tell me: What is a checkpoint?!
+
+<style>
+    h5 {
+        font-size: 2rem;
+        margin-bottom: 2rem
+    }
+
+    p {
+        font-style: italic
+    }
+</style>
+
+A checkpoint is a **consistent** snapshot the application's state. taken at a regular **schedule**.
+
+I serves as a starting point for a failed system to **recover from**.
 
 ---
 layout: two-cols
@@ -831,7 +841,7 @@ layout: two-cols
 <!--
 ##### Flink’s Checkpointing Algorithm
 
-Flink’s recovery mechanism is based on consistent application checkpoints. The naive approach to taking a checkpoint from a streaming application—to **pause, checkpoint, and resume the application—is not practical for applications** that have even moderate latency requirements due to its “stop-the-world” behavior. 
+Flink’s recovery mechanism is based on consistent application checkpoints. The naive approach to taking a checkpoint from a streaming application—to **pause, checkpoint, and resume the application—is not practical for applications** that have even moderate latency requirements due to its “stop-the-world” behavior.
 
 Instead, Flink implements checkpointing based on the Chandy–Lamport algorithm for **distributed snapshots. The algorithm does not pause the complete application but decouples checkpointing from processing**, so that some tasks continue processing while others persist their state. In the following, we explain how this algorithm works.
 
@@ -841,7 +851,6 @@ The same mechanism can also be used for **savepoints**, which allow to externali
 -->
 </template>
 
-
 ---
 
 ### Which problems does Flink produce
@@ -850,6 +859,7 @@ The same mechanism can also be used for **savepoints**, which allow to externali
 Apache Flink solves a lot of issues you might not even be aware of you've actually got them...
 
 ... but it also produces some you even more likely not thought about either
+
 </div>
 
 - Complexity: Learning curve
@@ -859,7 +869,6 @@ Apache Flink solves a lot of issues you might not even be aware of you've actual
 - Running and scaling the infrastructure (Choose your ~~poison~~ operations model)
 
 <!--
-
 Stream processing requires a **different mental model** compared to state-oriented application programming models. 
 
 Also, there's an **"event" in "eventual consistency"**. While Flink will make sure, that in the end, everything is processed consistently, there might be steps in between where some parts have been processed, while others are still pending. This may require explanations to the user on the UI.
@@ -876,14 +885,14 @@ The way, job manager and task manager interact, also with the state-backend, is 
 <v-clicks>
 
 - Acknowledge it's a tricky problem
-- Start small in functional scope, but realistic wrt volume 
+- Start small in functional scope, but realistic wrt volume
 - Include the other elements of the streaming architecture (Schema Registry!)
 - Set up custom metrics from the beginning
 - Start with a Managed Service (AWS or Azure)
 
 </v-clicks>
-<!--
 
+<!--
 [click]
 It's a tricky problem, but **it's a problem Flink is made for**. 
 
@@ -923,10 +932,6 @@ layout: statement
 <div>
 The React Native team explaining their recommendation to build React Native using Expo
 </div>
-<!--
-
--->
-
 
 ---
 layout: center
@@ -935,7 +940,6 @@ layout: center
 ![Flink is the hammer for event stream processing](/DALL·E-squirrel-with-hammer.webp)
 
 <!--
-
 **Because Apache Flink is made for this**
 
 There are challenges to be solved, but there's always a Flink-native solution to it. Because it's a **mature** and **battle proven** technology.
