@@ -327,20 +327,46 @@ layout: center
 - **Resilience:** Built-in mechanisms for error handling and recovery ensure robustness.
 -->
 
----
+--- 
 
-### Key Components of Streaming Data Architecture
+### REST compared to Event Streaming – What's happening full-stack
 
-- **Messaging Systems** like Kafka, RabbitMQ
-- **Stream Processing Frameworks** like Apache Flink, Apache Spark Streaming, Azure Streaming Analytics
-- **Data Storage for Streaming Data** Like HBase (Hadoop), Cassandra
+<table>
+<tr><th></th><th>REST</th><th>Streaming</th></tr>
+<v-clicks>
+<tr><td>Stored is</td><td>State</td><td>Event</td></tr>
+<tr><td>Operation is a</td><td>Mutation</td><td>Map/Reduce/Filter</td></tr>
+<tr><td>Transported is</td><td>Consumer optimized state</td><td>Derived event</td></tr>
+<tr><td>Reporting is</td><td>OLAP</td><td>Just a view</td></tr>
+</v-clicks>
+</table>
 
 <!--
-Messaging Systems **facilitate the transfer of data** between different parts of the system **in real-time**.
 
-Stream processing frameworks like Apache Flink and Apache Spark Streaming allow for **complex data processing operations on data streams in real-time**
+-->
 
-NoSQL databases and data lakes **store vast amounts of real-time data efficiently**.
+---
+
+### REST compared to Event Streaming – Architectural layers
+
+<table>
+<tr><th></th><th>REST</th><th>Streaming</th></tr>
+<v-clicks>
+<tr><td>Storage</td><td>DBMS</td><td>Messaging System</td></tr>
+<tr><td>Processing</td><td>Application Server</td><td>Stream Processor</td></tr>
+<tr><td>Client API</td><td>HTTP</td><td>Streaming-API</td></tr>
+<tr><td>Analytical Persistence</td><td>Data Warehouse</td><td>Data Lake</td></tr>
+</v-clicks>
+</table>
+
+<!--
+(Durable) Messaging Systems **facilitate the transfer of data** between different parts of the system in real-time. Examples: **Kafka, RabbitMQ**.
+
+Stream processing frameworks like Apache Flink and Apache Spark Streaming allow for **complex data processing operations on data streams in real-time**. Examples: **Apache Flink, Apache Spark Streaming, Azure Streaming Analytics**
+
+Streaming API **provide full-stack reactive user experiences** Examples: **Websocket, Server-sent events**
+
+NoSQL databases and data lakes **store vast amounts of real-time data efficiently**. Examples: HBase (Hadoop), Cassandra
 -->
 
 ---
@@ -439,21 +465,48 @@ Ok, you got me. we need event stream processing.
 We already got Kafka, we're fine... No?
 
 ---
-layout: two-cols
+layout: center
 ---
 
 ## Stateless vs. stateful streaming
 
+---
+layout: two-cols
+---
+
 <style>
-    h2 {display: none}
+.dialogue {
+    font-style: italic;
+}
+</style>
+
+<v-clicks>
+<div>Filtering => trivial<img src="/marbles-filtering.png" alt="Filtering" /></div>
+<div>Mapping => trivial<img src="/marbles-mapping.png" alt="Mapping" /></div>
+</v-clicks>
+
+<template #right>
+<v-clicks>
+<div>Windowing<img src="/marbles-windowing.png" alt="Windowing" /></div>
+<div>Complex Event Processing<img src="/marbles-cep.png" alt="Complex Event Processing" /></div>
+<p style="margin-top: 1rem" class="dialogue">But that's also trivial, just some sort of "reduce", no?</p>
+<p class="dialogue">Only as long as you are running on a single, reliable node. There’s STATE involved, buddy!</p>
+</v-clicks>
+</template>
+    
+---
+layout: two-cols
+---
+
+<style>
     h3 {min-height: 6rem}
 </style>
 
-### What about Spring Cloud, Node-Streams, AWS SNS + Lambda?
+### What's the difference
 
 **Stateless** processing
 
-- One-By-One-processing
+- Restricted to One-By-One-processing
 - Filtering
 - Mapping (data enrichment)
 
@@ -462,12 +515,15 @@ layout: two-cols
 
 **Stateful** computations
 
+- Considers multiple events all together
 - Aggregations (over time)
 - Business processing which rely on ordering
-- complex event processing
+- Complex Event Processing
 </template>
+
 <!--
 
+What about Spring Cloud, Node-Streams, AWS SNS + Lambda? All are
 **Stateless**
 - All these solutions don't offer built-in-options for state
 - State is managed by the DBMS (or Kafka, looking at Kafka-streams)
