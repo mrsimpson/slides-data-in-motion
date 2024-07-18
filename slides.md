@@ -152,10 +152,22 @@ Traditional batch processing approaches are no longer sufficient to handle this 
 -->
 
 ---
-layout: statement
+layout: center
 ---
 
 ### Competitive advantage
+
+<img src="/DALL·E-disappointed-man.webp" class="h-70" />
+
+---
+layout: center
+hideInToc: true
+---
+
+### Competitive advantage
+
+<img src="/DALL·E-delighted-man.webp" class="h-70"/>
+
 
 <!--
 Businesses are increasingly recognizing the value of leveraging real-time data to **gain insights**, make informed decisions, and **deliver personalized experiences** to customers. 
