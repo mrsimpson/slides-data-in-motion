@@ -46,7 +46,7 @@ layout: statement
 
 Confluent is a hyped company, major contributor to Apache Kafka, Apache Kafka is hyped in enterprises, so does this alone justify the hype?
 
-No. It's because we try to **represent reality** in software-systems.
+No. It's because we try to **represent reality** in software systems.
 -->
 
 ---
@@ -63,9 +63,9 @@ div {background-color: black}
 <!--
 The real world mutates, but all **events that lead to those mutations are bound in time and space** – they are immutable
 
-In software, we achieve constantly great results keeping the **representational gap** low.
+In software, we achieve consistently great results keeping the **representational gap** low.
 
-You have a Sales Order on paper => Let's model a Sales Order Class and implement a `SlaesOrder` interface – and store it in a `SALES_ORDER_HEADER` and `SALES_ORDER_ITEM` table in the database – or in a `SalesOrders` collection, if you use an object store.
+You have a Sales Order on paper => Let's model a Sales Order Class and implement a `SalesOrder` interface – and store it in a `SALES_ORDER_HEADER` and `SALES_ORDER_ITEM` table in the database – or in a `SalesOrders` collection, if you use an object store.
 
 Still, for ages, we mutated our persistence – because everything else would have been **too costly**
 
@@ -104,7 +104,7 @@ h3 {display: none}
 - **Pinterest** runs thousands of so-called "experiments" every day on a platform for real-time experiment analytics that is based on Apache Flink.
 - **LinkedIn** for real-time data analysis and personalization.
 - **Uber** uses Apache Flink as a processing engine for its streaming platform, for example, to consistently generate features for machine learning.
-- **Deutsche Bahn** (currently) uses the Kafka Streams Library to provide insights into trains, schedules and delays in real time to travellers.
+- **Deutsche Bahn** (currently) uses the Kafka Streams Library to provide insights into trains, schedules, and delays in real time to travelers.
 -->
 
 ---
@@ -184,14 +184,14 @@ This allows organizations to uncover hidden patterns, identify emerging trends, 
 
 ---
 
-### Alright, we've got a Kafka up and running, let's build a REST-interface
+### Alright, we've got Kafka up and running, let's build a REST interface
 
 ![https://www.yishizuo.com/dont-be-a-hammer-looking-for-a-nail-3/](/hammer-nail.png)
 
 <!--
 there are fundamental differences in those architectures. 
 
-Before looking into streaming architecture components, let's revise a traditional REST appplication
+Before looking into streaming architecture components, let's revise a traditional REST application
 -->
 
 ---
@@ -264,8 +264,8 @@ _"generate a picture illustrating client service communication in micro services
 - Statelessness
 
 <!--
-- **Scalability**: Processing each consumer's requests increases the load of the serer
-- **Latency**: Load of the server slows down the consumer
+- **Scalability**: Processing each consumer's requests increases the load on the server
+- **Latency**: Load on the server slows down the consumer
 - **Statelessness**: Each request is independent, making real-time updates complex. We all love optimistic locking, don't we?
 -->
 
@@ -429,7 +429,7 @@ We **scale** the system
 
 <div class="comparison">
     <p>
-    Horizontally on the appserver, <br/> vertically on the DBMS
+    Horizontally on the app server, <br/> vertically on the DBMS
     </p>
     <p>
     Horizontally everywhere
@@ -554,11 +554,11 @@ layout: center
 ---
 
 
-### Usecases
+### Use cases
 
 - Event Driven Applications
 - Streaming ETL pipelines
-- Realtime analytics
+- Real-time analytics
 
 <!-- https://www.infoworld.com/article/2336241/3-dynamic-use-cases-for-apache-flink-and-stream-processing.html -->
 
@@ -566,7 +566,7 @@ layout: center
 - **Event Driven Applications**
   trigger actions on events, including complex event processing (CEP, which includes identifying patterns in the order of events)
 - **Realtime analytics**
-  Provide realtime-insights into aggregated events
+  Provide real-time insights into aggregated events
 - **Streaming pipelines**
   Continuously ingest data into warehouses for further (state-oriented) analysis
 -->
@@ -609,7 +609,7 @@ _Source: Stream Processing with Apache Flink by Fabian Hueske_
 Traditional Lambda-Architectures have significant drawbacks:
 
 - it requires two semantically equivalent implementations of the application logic for two separate processing systems with different APIs. 
-- the results computed by the stream processor are only approximate (might be overriden as the Batch-results are available).
+- the results computed by the stream processor are only approximate (might be overridden as the Batch-results are available).
 
 The Third-Gen-Stream-Processors** addressed the dependency of results on the timing and order of arriving events**. In combination with **exactly-once failure semantics**, systems of this generation are the first open source stream processors capable of computing consistent and accurate results.
 
@@ -619,7 +619,7 @@ The Third-Gen-Stream-Processors** addressed the dependency of results on the tim
 layout: center
 ---
 
-#### Realtime analytics (aka. "Streaming Analytics")
+#### Real-time analytics (aka. "Streaming Analytics")
 
 ![Streaming Analytics Architecture](/spaf_0106.png)
 <ImageSource work="spaf" />
@@ -702,18 +702,18 @@ layout: statement
 
 #### Low Latency
 
-Did somebody say "Realtime"?
+Did somebody say "Real-time"?
 
 ---
 
 My mom says
-<div class="hypothesis">"Realtime is when a system is faster than I can react"</div>
+<div class="hypothesis">"Real-time is when a system is faster than I can react"</div>
 
 <v-clicks>
 
 As software developers, we can say
 
-**Realtime** is to process Data as soon as it's emitted
+**Real-time** is to process Data as soon as it's emitted
 
 **Latency** defines how long the consumer has to wait until the processing has terminated
 
@@ -723,8 +723,8 @@ As software developers, we can say
 <!--
 Disclaimer: My mom didn't actually say that. I derived it from her words when she told me to clean up my room "NOW" when I was a child.
 
-As architects, we should  wish for analysts to specify tolerated latency prior to designing a system. 
-Unfortunately, this decision is usually outside of the system boundary, but part of the context – and this context ma vary
+As architects, we should wish for analysts to specify tolerated latency prior to designing a system. 
+Unfortunately, this decision is usually outside of the system boundary, but part of the context – and this context may vary
 
 -->
 
@@ -750,9 +750,9 @@ layout: two-cols
 Having data local at the same node in-memory will speed up our **read times by factor 1000**
 This is important, since in **one-by-one-processing**, we constantly access data.
 
-"Local" means that the physical memory in which the data resides **on the same compute node** where the physcial CPU host the computation over this data.
+"Local" means that the physical memory in which the data resides **on the same compute node** where the physical CPU hosts the computation over this data.
 
-Stateless architecures (be it REST or stateless streaming) mostly load data from a remote (on another node) location via network – and even a Redis-Cache via network is about 5ms – slow.
+Stateless architectures (be it REST or stateless streaming) mostly load data from a remote (on another node) location via network – and even a Redis-Cache via network is about 5ms – slow.
 -->
 
 ---
@@ -835,7 +835,7 @@ Instead, Flink implements checkpointing based on the Chandy–Lamport algorithm 
 
 Flink’s checkpointing algorithm uses a special type of record called a checkpoint barrier. Similar to watermarks, checkpoint barriers are injected by source operators into the regular stream of records and cannot overtake or be passed by other records. A checkpoint barrier carries a checkpoint ID to identify the checkpoint it belongs to and logically splits a stream into two parts. All state modifications due to records that precede a barrier are included in the barrier’s checkpoint and all modifications due to records that follow the barrier are included in a later checkpoint.
 
-The same mechanism can also be used for **savepoints**, which allow to externalize state at defined points in time (e. g. prior to an application upgrade)
+The same mechanism can also be used for **savepoints**, which allow to externalize state at defined points in time (e.g., prior to an application upgrade)
 -->
 </template>
 
@@ -853,29 +853,29 @@ Apache Flink solves a lot of issues you might not even be aware of you've actual
 - Complexity: Learning curve
 - Monitoring
 - State backend
-- Job manager / task-manager communication
+- Job manager / task manager communication
 - Running and scaling the infrastructure (Choose your ~~poison~~ operations model)
 
 <!--
 
 Stream processing requires a **different mental model** compared to state-oriented application programming models. 
 
-Also, there's an **"event" in "eventual consistency"**. While Flink will make sure, that in the end, everything is processed consistently, there might be steps in between where some parts have been processed, while others are sill pending. This may require explanations to the user on the UI.
+Also, there's an **"event" in "eventual consistency"**. While Flink will make sure, that in the end, everything is processed consistently, there might be steps in between where some parts have been processed, while others are still pending. This may require explanations to the user on the UI.
 
-Observing, how a continuosly running application behaves requires appropriate metrics. They deviate from what's common to observe for restful applications.
+Observing, how a continuously running application behaves requires appropriate metrics. They deviate from what's common to observe for restful applications.
 
-The way, jobmanager and taskmanager interact, also with the state-backend, is not easy to understand. It's deeply integrated into the tooling.
+The way, job manager and task manager interact, also with the state-backend, is not easy to understand. It's deeply integrated into the tooling.
 -->
 
 ---
 
-### How respond to those challenges
+### How to respond to those challenges
 
 <v-clicks>
 
 - Acknowledge it's a tricky problem
 - Start small in functional scope, but realistic wrt volume 
-- Include the other elements of the streaming archicture (Schema Registry!)
+- Include the other elements of the streaming architecture (Schema Registry!)
 - Set up custom metrics from the beginning
 - Start with a Managed Service (AWS or Azure)
 
@@ -887,23 +887,23 @@ It's a tricky problem, but **it's a problem Flink is made for**.
 
 Still, a tricky problem. Allow yourself and your developers time to learn!
 
-Flink provides multple APIs for different use cases, has great documentation, but is just a lot to learn. Java Streaming API, Python, TableAPI, SQL – The more abstract, the more to learn
+Flink provides multiple APIs for different use cases, has great documentation, but is just a lot to learn. Java Streaming API, Python, TableAPI, SQL – The more abstract, the more to learn
 
 [click]
 A major benefit of Flink is **performance and scalability**. But this only works when employed properly. Pick use cases which stress your system right from the beginning.
 
 [click]
-As pictured earlier, Flink ~~is~~ can be the central piece of your streaming architecure. But don't forget the other pieces and how to bing them together. A **schema registry** might save you from tedious serialization issues down the stream, if you implement them from beginning.
+As pictured earlier, Flink ~~is~~ can be the central piece of your streaming architecture. But don't forget the other pieces and how to bring them together. A **schema registry** might save you from tedious serialization issues down the stream, if you implement them from beginning.
 
 [click]
 Flink has an **awesome metrics system** which export very detailed information about the state of processing (offset lags, backpressure, parallelism)
 The metrics system is also easily extensible: Write your own custom metrics to observe how your stream is doing.
 
 [click]
-Jobmanager, Taskmanager, State-Backend does not need to be understood in detail, as Flink abstracts all this provisioning of compute.
-This changes drastically, if you want to operate Flink on your own though. Then, you need to completely dive-in in order to make it run elastically on your e. g. Kubernetes-Cluster.
+Job manager, Task manager, State-Backend does not need to be understood in detail, as Flink abstracts all this provisioning of compute.
+This changes drastically, if you want to operate Flink on your own though. Then, you need to completely dive in to make it run elastically on your e.g., Kubernetes-Cluster.
 
-There are operators for Kubernetes, Apache Mesos and bare metal installations, but safest is to **start with a managed service**. It might not suit your particular usecase and could be optimized, but configuring them properly needs some experience.
+There are operators for Kubernetes, Apache Mesos and bare metal installations, but safest is to **start with a managed service**. It might not suit your particular use case and could be optimized, but configuring them properly needs some experience.
 -->
 
 ---
