@@ -7,7 +7,33 @@ layout: cover
 
 # Data in Motion
 
-about being RESTless
+An introduction to event stream processing
+
+---
+layout: center
+---
+
+
+<div style="font-size: 3rem; margin-bottom: 2rem">
+How does your data behave?
+</div>
+
+<div style="display: flex; justify-content: space-around;">
+<v-click>
+<div>
+<img src="/data-at-rest.png" class="rounded-xl h-60" />
+</div>
+</v-click>
+<v-click>
+<div>
+<img src="/data-in-motion.png" class="rounded-xl h-60" />
+</div>
+</v-click>
+</div>
+
+---
+
+<Toc maxDepth="2"/>
 
 ---
 layout: statement
@@ -52,10 +78,8 @@ layout: statement
 
 ### Using a Stream Processor unlocks the world of ... event processing
 
-... and unlocks new capabilities
-
 <!--
-well, this is self-explanatory
+... and unlocks new capabilities
 -->
 
 ---
@@ -806,9 +830,8 @@ layout: statement
 
 “you’re either using a framework, or you’re building your own framework.”
 
-<div class="">
-The React team team explaining their recommendation to build full-stack apps using Next.js
-The React native team explaining their recommendation to build React Native using Expo
+<div>
+The React Native team explaining their recommendation to build React Native using Expo
 </div>
 <!--
 
