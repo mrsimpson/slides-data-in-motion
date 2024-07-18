@@ -498,11 +498,11 @@ layout: two-cols
 layout: two-cols
 ---
 
+### What's the difference
+
 <style>
     h3 {min-height: 6rem}
 </style>
-
-### What's the difference
 
 **Stateless** processing
 
@@ -548,7 +548,6 @@ layout: center
 ---
 
 ### Integration of Flink into the streaming landscape
-
 
 ![The Flink-Kafka-ecosystem](/flink-kafka-ecosystem.png)
 
@@ -641,6 +640,7 @@ Apache Flink solves a lot of issues you might not even be aware of you've actual
 </div>
 
 - Event-Time
+- Low latency
 - Consistency guarantees
 - Data locality and Scalability
 - A Stream-First-Application programming model
@@ -652,15 +652,15 @@ Apache Flink is a third-generation distributed stream processor with a competiti
 
 **Exactly-once** means that not only will there be no event loss, but also updates on the internal state will be applied exactly once for each event. In essence, exactly-once guarantees mean that our application will provide the correct result, as though a failure never happened.
 
-Millisecond latencies while processing millions of events per second. Flink applications can be scaled to run on thousands of cores.
+**Millisecond latencies** while processing millions of events per second. Flink applications can be scaled to run on thousands of cores.
 
-Layered APIs with varying tradeoffs for expressiveness and ease of use. 
+**Layered APIs** with varying tradeoffs for expressiveness and ease of use. 
 
-Connectors to the most commonly used storage systems such as Apache Kafka, Apache Cassandra, Elasticsearch, JDBC, Kinesis, and (distributed) filesystems such as HDFS and S3.
+**Connectors** to the most commonly used storage systems such as Apache Kafka, Apache Cassandra, Elasticsearch, JDBC, Kinesis, and (distributed) filesystems such as HDFS and S3.
 
-Ability to run streaming applications 24/7 with very little downtime due to its highly available setup (no single point of failure), tight integration with Kubernetes, YARN, and Apache Mesos, fast recovery from failures, and the ability to dynamically scale jobs.
+Ability to run streaming applications **24/7 with very little downtime due to its highly available setup** (no single point of failure), tight integration with Kubernetes, YARN, and Apache Mesos, fast recovery from failures, and the ability to dynamically scale jobs.
 
-Ability to update the application code of jobs and migrate jobs to different Flink clusters without losing the state of the application.
+Ability to update the application code of jobs and **migrate** jobs to different Flink clusters **without losing the state** of the application.
 
 _Source: Stream Processing with Apache Flink by Fabian Hueske_
 
@@ -694,6 +694,38 @@ layout: center
 Watermarks are determined (extracted) from records.
 
 **When** they will be emitted, can be configured / implemented.
+-->
+
+---
+layout: statement
+---
+
+#### Low Latency
+
+Did somebody say "Realtime"?
+
+---
+
+My mom says
+<div class="hypothesis">"Realtime is when a system is faster than I can react"</div>
+
+<v-clicks>
+
+As software developers, we can say
+
+**Realtime** is to process Data as soon as it's emitted
+
+**Latency** defines how long the consumer has to wait until the processing has terminated
+
+**Tolerated Latency** usually depends on the consumer's ability to react.
+</v-clicks>
+
+<!--
+Disclaimer: My mom didn't actually say that. I derived it from her words when she told me to clean up my room "NOW" when I was a child.
+
+As architects, we should  wish for analysts to specify tolerated latency prior to designing a system. 
+Unfortunately, this decision is usually outside of the system boundary, but part of the context – and this context ma vary
+
 -->
 
 ---
