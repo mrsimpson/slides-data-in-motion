@@ -404,6 +404,8 @@ NoSQL databases and data lakes **store vast amounts of real-time data efficientl
     </p>
 </div>
 
+<v-click>
+
 If we **increase load**, this results in
 
 <div class="comparison">
@@ -414,6 +416,8 @@ If we **increase load**, this results in
     Processing time latency
     </p>
 </div>
+</v-click>
+<v-click>
 
 If we **overload**, this results in
 
@@ -425,6 +429,8 @@ If we **overload**, this results in
     Backpressure
     </p>
 </div>
+</v-click>
+<v-click>
 
 We **scale** the system
 
@@ -436,6 +442,8 @@ We **scale** the system
     Horizontally everywhere
     </p>
 </div>
+</v-click>
+<v-click>
 
 **Shit in** results in
 
@@ -447,6 +455,7 @@ We **scale** the system
     Dead letters
     </p>
 </div>
+</v-click>
 
 <!--
 ## Comparison: Traditional REST vs. *Stateful* Streaming Data Architecture
