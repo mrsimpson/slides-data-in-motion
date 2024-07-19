@@ -157,18 +157,13 @@ layout: center
 
 ### Competitive advantage
 
-<img src="/DALL·E-disappointed-man.webp" class="h-70" />
+<div class="relative">
+<v-clicks>
+<img src="/DALL·E-disappointed-man.webp" class="h-100" />
 
----
-layout: center
-hideInToc: true
----
-
-### Competitive advantage
-
-<img src="/DALL·E-delighted-man.webp" class="h-70"/>
-
-
+<img src="/DALL·E-delighted-man.webp" class="h-100 absolute top-0 left-0"/>
+</v-clicks>
+</div>
 <!--
 Businesses are increasingly recognizing the value of leveraging real-time data to **gain insights**, make informed decisions, and **deliver personalized experiences** to customers. 
 
@@ -310,6 +305,7 @@ layout: center
 ---
 layout: center
 ---
+### Principles of Event-Driven Architecture
 
 ![https://thecloudblog.net/post/event-driven-architecture-with-apache-kafka-for-net-developers-part-1-event-producer/](/producer-consumer-stream.png)
 
