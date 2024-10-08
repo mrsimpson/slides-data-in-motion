@@ -561,7 +561,8 @@ layout: center
 ## Stateless vs. stateful streaming
 
 <!--
-Let's have a deeper look at what we do when developing  streaming applications!
+Let's have a deeper look at what we do when developing  streaming applications, at the operations we perform. Filter, Map and reduce
+
 -->
 
 ---
@@ -590,8 +591,6 @@ layout: two-cols
 </template>
 
 <!--
-Let's have a look at the operations we perform. Filter, Map and reduce
-
 [click]
 Filtering => operates on a single event => trivial
 
@@ -669,6 +668,17 @@ layout: center
 
 </div>
 
+<!--
+
+Recalling the unhappy triangle of rest earlier, we can also see a very similar conflict-sphere for streaming.
+
+[click]
+Major difference compared to the RESTful dilemma are the consqueneces (such as backpressure on the server side vompared to dropped requests). But satisfying all dimensions is really tough!
+
+[click]
+That's where Apache Flink claims its spot. What features it's got and how they contribute to achieving **one-at-a-time, scalable and stateful calculations** will be subject of the remaining slides.
+
+-->
 ---
 layout: image-right
 image: /flink-squirrel-stream-hazelnut.webp
