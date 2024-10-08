@@ -3,11 +3,22 @@ title: Data in Motion – about being RESTless
 transition: fade-out
 theme: default
 layout: cover
+hideInToc: false
 ---
 
 # Data in Motion
 
 An introduction to event stream processing
+
+<!--
+**Welcome**
+
+I'm going to talk about event stream processing.
+
+I make a distinction to "streaming" which is usually a synonym for streaking of packets of data (e. g. video streams).
+
+In this session, we'll talk about data – business data. And what happens if it gets rolling – in motion.
+-->
 
 ---
 layout: center
@@ -30,9 +41,35 @@ How does your data behave?
 </v-click>
 </div>
 
+<!--
+When we describe features of  `data` in business applications, we usually talk about **structure**.
+Also, we check on volume and frequency of changes.
+But we don't often talk about **mutability** of the things that this data describes.
+
+[click]
+There is data which is residual. Like master data, but also business data such as a sales order. Or a document. Even a simulation which may be performed virtual can be considered restful. It is getting created , some perform updates and then it's mostly read.
+
+[click]
+On the other hand, even a change of perspective may put another aspect of the data into focus: How does this data change? If we need to provide an audit trail for master data or collaboration on documents, it may absolutely make sense to consider the **event that triggers a change** as primary subject of an application.
+-->
+
+---
+hideInToc: true
 ---
 
-<Toc maxDepth="2"/>
+<style>
+li {
+  margin-top: 2rem
+}
+</style>
+
+## ToC
+
+<Toc maxDepth="2"  minDepth="2"/>
+
+<!--
+So we'll get into this now, but inorder to understand what's **different** in streaming architectures, we first need to look at what's **common in state-oriented applications**
+-->
 
 ---
 layout: statement
@@ -125,7 +162,7 @@ In today's fast-paced world, businesses need to make decisions quickly based on 
 
 Streaming data architecture enables real-time processing and analysis of data, allowing organizations to react promptly to changing conditions, trends, and events.
 
-... and you never know, ~~if~~ ~~when~~ how quickly your human consumer will be replaced by a much more responsive consuming API.
+... and you never know, ~~if~~ ~~when~~ how quickly your **human consumer will be replaced by a much more responsive consuming API**.
 
 Examples: Financial trading, track and trace, traffic based routing (of IP packets and/or goods)
 -->
@@ -146,7 +183,7 @@ h3 {display: none}
 <!--
 ### Explosion of data
 
-With the proliferation of connected devices, social media platforms, IoT sensors, and other sources, the volume of data generated every second has **grown exponentially**. 
+With the proliferation of connected devices, social media platforms, IoT sensors, and other sources, the volume of data generated every second has **grown exponentially**.
 
 Traditional batch processing approaches are no longer sufficient to handle this massive influx of data. Streaming data architecture provides a scalable and efficient solution for processing data in real-time as it is generated.
 -->
@@ -158,14 +195,15 @@ layout: center
 ### Competitive advantage
 
 <div class="relative">
-<v-clicks>
 <img src="/DALL·E-disappointed-man.webp" class="h-100" />
 
+<v-clicks>
 <img src="/DALL·E-delighted-man.webp" class="h-100 absolute top-0 left-0"/>
 </v-clicks>
 </div>
+
 <!--
-Businesses are increasingly recognizing the value of leveraging real-time data to **gain insights**, make informed decisions, and **deliver personalized experiences** to customers. 
+Businesses are increasingly recognizing the value of leveraging real-time data to **gain insights**, make informed decisions, and **deliver personalized experiences** to customers.
 
 Streaming data architecture enables organizations to stay ahead of the competition by offering **timely** and relevant products, services, and recommendations.
 -->
@@ -183,9 +221,11 @@ h3 {display: none}
 </style>
 
 <!--
-Streaming data architecture facilitates the implementation of advanced analytics techniques, such as **machine learning, predictive analytics, and anomaly detection**, in real-time. 
+Streaming data architecture facilitates the implementation of advanced analytics techniques, such as **machine learning, predictive analytics, and anomaly detection**, in real-time.
 
 This allows organizations to uncover hidden patterns, identify emerging trends, and detect anomalies as they occur, enabling proactive decision-making and risk mitigation.
+
+This leads to a **convergence of analytical and transactional processing**
 -->
 
 ---
@@ -195,9 +235,9 @@ This allows organizations to uncover hidden patterns, identify emerging trends, 
 ![https://www.yishizuo.com/dont-be-a-hammer-looking-for-a-nail-3/](/hammer-nail.png)
 
 <!--
-there are fundamental differences in those architectures. 
+there are fundamental differences in those architectures.
 
-Before looking into streaming architecture components, let's revise a traditional REST application
+Before looking into streaming architecture components, let's **revise a traditional REST application**
 -->
 
 ---
@@ -223,7 +263,7 @@ layout: center
 
 Coming back to the "representation" whose gap we tried to close:
 
-For software engineers, understanding the "representation" of real-world entities is crucial because it ensures a consistent and clear way to model, communicate, and manage data throughout the entire software stack. 
+For software engineers, understanding the "representation" of real-world entities is crucial because it ensures a consistent and clear way to model, communicate, and manage data throughout the entire software stack.
 When we talk about representation in REST, we refer to how real-world entities (like a customer, order, or product) are modeled and exposed as resources in the API. These representations:
 
 1. **Ensure Consistency**: By having a clear representation of entities, every part of the system (from the database to the client) has a unified understanding of what an entity looks like and how it behaves.
@@ -262,17 +302,33 @@ _"generate a picture illustrating client service communication in micro services
 <img src="/microservices-by-DALL-E.webp" class="h-90"/>
 
 ---
+layout: two-cols-header
+---
 
-### Restful Limitations in Handling Real-Time Data
+<style>
+.two-cols-header{
+  grid-template-rows: auto !important
+}
+</style>
 
-- Scalability
-- Latency
-- Statelessness
+### Restful ~~Limitations~~ challenges in handling Real-Time Data
+
+::left::
+
+- Managing State (local data is fast)
+- Latency (how long does it take)
+- Scalability (react on higher demand)
+
+::right::
+
+<v-click>
+<img src="/triangle-of-rest.svg" />
+</v-click>
 
 <!--
-- **Scalability**: Processing each consumer's requests increases the load on the server
-- **Latency**: Load on the server slows down the consumer
-- **Statelessness**: Each request is independent, making real-time updates complex. We all love optimistic locking, don't we?
+- **Scalability**: Processing each consumer's requests increases the load on the server. **the more clients, the more load** (not necessarily more data!)
+- **Latency**: Working with request queues: Load on the server slows down the consumer (or lost information)  (see [this wonderful animation](https://encore.dev/blog/queueing))
+- **Statelessness**: Each **request is independent**, making real-time updates complex. We all love optimistic locking, don't we?
 -->
 
 ---
@@ -298,7 +354,7 @@ layout: center
 
 - **Event-driven:** Processes events as they occur, leading to timely and relevant responses.
 - **Low latency:** Immediate processing allows for quick insights and actions.
-- **Scalability:** Can handle large volumes of data from multiple sources.
+- **Scalability:** Can handle large (and varying!) volumes of data from multiple sources.
 - **Fault tolerance:** Ensures reliability and accuracy even in case of failures.
 -->
 
@@ -318,19 +374,42 @@ layout: center
 -->
 
 ---
+layout: two-cols-header
+---
 
-### Advantages over REST
+### Naive features of streaming
+
+::left::
+
+**Easier**
 
 - Decoupling
 - Scalability
 - Real-time processing
 - Resilience
 
+::right::
+
+<v-click>
+
+**Trickier**
+
+- Providing a "current image"
+
+</v-click>
+
 <!--
+A **competitive streaming architecture** provides
+
 - **Decoupling:** Loose coupling between components enhances flexibility and maintainability.
 - **Scalability:** Can handle high volumes of events efficiently (as fast as there is compute)
 - **Real-time processing:** Immediate reaction to events provides up-to-date information and responses.
-- **Resilience:** Built-in mechanisms for error handling and recovery ensure robustness.
+- **Resilience:** Built-in mechanisms for error handling and recovery ensure robustness (it's part of the "streaming API", whereas it has to be built into the server in Rest).
+
+[click]
+
+Providing the current state needs **event sourcing** or a replay of all events from the latest snapshot
+
 -->
 
 ---
@@ -388,7 +467,7 @@ NoSQL databases and data lakes **store vast amounts of real-time data efficientl
     }
 
     h3 {
-        display: none    
+        display: none
     }
 
     p {margin-bottom: 0.5rem}
@@ -458,12 +537,9 @@ We **scale** the system
 </v-click>
 
 <!--
-## Comparison: Traditional REST vs. *Stateful* Streaming Data Architecture
-Compare the performance aspects of traditional REST and streaming data architectures. Discuss how streaming architectures generally offer lower latency by processing data in real-time, whereas REST can experience higher latency due to its request-response model. Explain the concept of backpressure in streaming systems versus dropped requests in REST under high load.
+How do those features influence to the runtime?
 
-Highlight the scalability differences. Streaming architectures can scale horizontally more efficiently due to their event-driven nature, whereas REST can face challenges as the number of clients and requests increase.
-
-Streaming systems often have built-in fault-tolerance and data recovery mechanisms, whereas REST relies on external solutions for ensuring data integrity and handling failures.
+=> So there are – as usual – pros and cons, but given you need to process a **continuous flow of immutable data**, using an architecture dedicated to streaming makes sense.
 -->
 
 ---
@@ -474,11 +550,19 @@ Ok, you got me. we need event stream processing.
 
 We already got Kafka, we're fine... No?
 
+<!--
+As you might guess: **it depends**
+-->
+
 ---
 layout: center
 ---
 
 ## Stateless vs. stateful streaming
+
+<!--
+Let's have a deeper look at what we do when developing  streaming applications!
+-->
 
 ---
 layout: two-cols
@@ -504,6 +588,28 @@ layout: two-cols
 <p class="dialogue">Only as long as you are running on a single, reliable node. There’s STATE involved, buddy!</p>
 </v-clicks>
 </template>
+
+<!--
+Let's have a look at the operations we perform. Filter, Map and reduce
+
+[click]
+Filtering => operates on a single event => trivial
+
+[click]
+Mapping => operates on a single event => trivial
+
+[click]
+windowing => hm – we need to consider multiple events in a time- or count-window
+
+[click]
+CEP => The order matters => also multiple events need to be considers
+
+[click]
+whenever we need information about more than the current event, we need state.
+
+[click]
+That's not bad – it's just complex to scale (or reach zero-downtime)
+-->
 
 ---
 layout: two-cols
@@ -545,6 +651,23 @@ What about Spring Cloud, Node-Streams, AWS SNS + Lambda? All are
 - Perform computations which consider multiple events
 - much harder to scale
 -->
+
+---
+layout: center
+---
+
+### The Streaming-Triangle-of-Death
+
+<div class="relative">
+
+<img src="/triangle-of-streaming.svg" class="h-100" />
+
+<v-clicks>
+<img src="/triangle-of-streaming-skull.svg" class="h-100 absolute top-0 left-0"/>
+<img src="/triangle-of-streaming-squirrel.svg" class="h-100 absolute top-0 left-0"/>
+</v-clicks>
+
+</div>
 
 ---
 layout: image-right
@@ -615,7 +738,7 @@ _Source: Stream Processing with Apache Flink by Fabian Hueske_
 <!--
 Traditional Lambda-Architectures have significant drawbacks:
 
-- it requires two semantically equivalent implementations of the application logic for two separate processing systems with different APIs. 
+- it requires two semantically equivalent implementations of the application logic for two separate processing systems with different APIs.
 - the results computed by the stream processor are only approximate (might be overridden as the Batch-results are available).
 
 The Third-Gen-Stream-Processors** addressed the dependency of results on the timing and order of arriving events**. In combination with **exactly-once failure semantics**, systems of this generation are the first open source stream processors capable of computing consistent and accurate results.
@@ -659,7 +782,7 @@ Apache Flink is a third-generation distributed stream processor with a competiti
 
 **Millisecond latencies** while processing millions of events per second. Flink applications can be scaled to run on thousands of cores.
 
-**Layered APIs** with varying tradeoffs for expressiveness and ease of use. 
+**Layered APIs** with varying tradeoffs for expressiveness and ease of use.
 
 **Connectors** to the most commonly used storage systems such as Apache Kafka, Apache Cassandra, Elasticsearch, JDBC, Kinesis, and (distributed) filesystems such as HDFS and S3.
 
@@ -793,7 +916,7 @@ layout: two-cols
 </template>
 
 <!--
-Flink allows developers to partition a stream by a logical key. 
+Flink allows developers to partition a stream by a logical key.
 
 All operations on a keyed stream will respect data locality: The operator instance of a Flink computational graph will get all items of the keyed stream which has the same key.
 -->
@@ -850,7 +973,7 @@ layout: two-cols
 2. Wait for all in-flight data to be completely processed, meaning all tasks have processed all their input data.
 3. Take a checkpoint by copying the state of each task to a remote, persistent storage. The checkpoint is complete when all tasks have finished their copies.
 4. Resume the ingestion of all streams.
- 
+
 <template #right>
 <v-click>
 <h5>Flink's checkpointing</h5>
@@ -893,7 +1016,7 @@ Apache Flink solves a lot of issues you might not even be aware of you've actual
 - Running and scaling the infrastructure (Choose your ~~poison~~ operations model)
 
 <!--
-Stream processing requires a **different mental model** compared to state-oriented application programming models. 
+Stream processing requires a **different mental model** compared to state-oriented application programming models.
 
 Also, there's an **"event" in "eventual consistency"**. While Flink will make sure, that in the end, everything is processed consistently, there might be steps in between where some parts have been processed, while others are still pending. This may require explanations to the user on the UI.
 
@@ -918,7 +1041,7 @@ The way, job manager and task manager interact, also with the state-backend, is 
 
 <!--
 [click]
-It's a tricky problem, but **it's a problem Flink is made for**. 
+It's a tricky problem, but **it's a problem Flink is made for**.
 
 Still, a tricky problem. Allow yourself and your developers time to learn!
 
