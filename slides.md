@@ -1,3 +1,4 @@
+```
 ---
 title: Data in Motion – about being RESTless
 transition: fade-out
@@ -47,10 +48,10 @@ Also, we check on volume and frequency of changes.
 But we don't often talk about **mutability** of the things that this data describes.
 
 [click]
-There is data which is residual. Like master data, but also business data such as a sales order. Or a document. Even a simulation which may be performed virtual can be considered restful. It is getting created , some perform updates and then it's mostly read.
+There is data which is residual. Like master data, but also business data such as a sales order. Or a document. Even a simulation which may be performed virtually can be considered restful. It is getting created, some perform updates and then it's mostly read.
 
 [click]
-On the other hand, even a change of perspective may put another aspect of the data into focus: How does this data change? If we need to provide an audit trail for master data or collaboration on documents, it may absolutely make sense to consider the **event that triggers a change** as primary subject of an application.
+On the other hand, even a change of perspective may put another aspect of the data into focus: How does this data change? If we need to provide an audit trail for master data or collaboration on documents, it may absolutely make sense to consider the **event that triggers a change** as the primary subject of an application.
 -->
 
 ---
@@ -68,7 +69,7 @@ li {
 <Toc maxDepth="2"  minDepth="2"/>
 
 <!--
-So we'll get into this now, but inorder to understand what's **different** in streaming architectures, we first need to look at what's **common in state-oriented applications**
+So we'll get into this now, but in order to understand what's **different** in streaming architectures, we first need to look at what's **common in state-oriented applications**
 -->
 
 ---
@@ -140,31 +141,31 @@ h3 {display: none}
 - **Pinterest** runs thousands of so-called "experiments" every day on a platform for real-time experiment analytics that is based on Apache Flink.
 - **LinkedIn** for real-time data analysis and personalization.
 - **Uber** uses Apache Flink as a processing engine for its streaming platform, for example, to consistently generate features for machine learning.
-- **Deutsche Bahn** (currently) uses the Kafka Streams Library to provide insights into trains, schedules, and delays in real time to travelers.
+- **Deutsche Bahn** (currently) uses the Kafka Streams Library to provide insights into trains, schedules, and delays in real-time to travelers.
 -->
 
 ---
 layout: center
 ---
 
-### Real Time Decision Making
+### Real-Time Decision Making
 
 <style>
 h3 {display: none}
 </style>
 
-![Real Time Decision Making](/we-want-realtime.jpg)
+![Real-Time Decision Making](/we-want-realtime.jpg)
 
 <!--
-### Real Time Decision Making
+### Real-Time Decision Making
 
-In today's fast-paced world, businesses need to make decisions quickly based on up-to-date information. This does not only apply to consumers, but also to enterprise business users ... who **got used to realtime** as consumers
+In today's fast-paced world, businesses need to make decisions quickly based on up-to-date information. This does not only apply to consumers, but also to enterprise business users ... who **got used to real-time** as consumers
 
 Streaming data architecture enables real-time processing and analysis of data, allowing organizations to react promptly to changing conditions, trends, and events.
 
 ... and you never know, ~~if~~ ~~when~~ how quickly your **human consumer will be replaced by a much more responsive consuming API**.
 
-Examples: Financial trading, track and trace, traffic based routing (of IP packets and/or goods)
+Examples: Financial trading, track and trace, traffic-based routing (of IP packets and/or goods)
 -->
 
 ---
@@ -221,7 +222,7 @@ h3 {display: none}
 </style>
 
 <!--
-Streaming data architecture facilitates the implementation of advanced analytics techniques, such as **machine learning, predictive analytics, and anomaly detection**, in real-time.
+Streaming data architecture facilitates the implementation of advanced analytics techniques, such as **machine learning, predictive analytics, and anomaly detection**, in real time.
 
 This allows organizations to uncover hidden patterns, identify emerging trends, and detect anomalies as they occur, enabling proactive decision-making and risk mitigation.
 
@@ -282,7 +283,7 @@ layout: center
 
 ### REST Request-Response Pattern
 
-![Quarkus rest api implementation components](/quarkus-rest-api.png)
+![Quarkus REST API implementation components](/quarkus-rest-api.png)
 
 <!--
 - **The client initiates** communication by sending a request to the server, which then processes it and returns a response
@@ -297,7 +298,7 @@ Source: https://developers.redhat.com/articles/2022/02/03/build-rest-api-ground-
 
 ### Which led to microservices
 
-_"generate a picture illustrating client service communication in micro services"_
+_"generate a picture illustrating client service communication in microservices"_
 
 <img src="/microservices-by-DALL-E.webp" class="h-90"/>
 
@@ -317,7 +318,7 @@ layout: two-cols-header
 
 - Managing State (local data is fast)
 - Latency (how long does it take)
-- Scalability (react on higher demand)
+- Scalability (react to higher demand)
 
 ::right::
 
@@ -327,7 +328,7 @@ layout: two-cols-header
 
 <!--
 - **Scalability**: Processing each consumer's requests increases the load on the server. **the more clients, the more load** (not necessarily more data!)
-- **Latency**: Working with request queues: Load on the server slows down the consumer (or lost information)  (see [this wonderful animation](https://encore.dev/blog/queueing))
+- **Latency**: Working with request queues: Load on the server slows down the consumer (or lost information) (see [this wonderful animation](https://encore.dev/blog/queueing))
 - **Statelessness**: Each **request is independent**, making real-time updates complex. We all love optimistic locking, don't we?
 -->
 
@@ -528,7 +529,7 @@ We **scale** the system
 
 <div class="comparison">
     <p>
-    Denied service <br/>> (at client or – worse – server side)
+    Denied service <br/>(at client or – worse – server side)
     </p>
     <p>
     Dead letters
@@ -537,7 +538,7 @@ We **scale** the system
 </v-click>
 
 <!--
-How do those features influence to the runtime?
+How do those features influence the runtime?
 
 => So there are – as usual – pros and cons, but given you need to process a **continuous flow of immutable data**, using an architecture dedicated to streaming makes sense.
 -->
@@ -561,7 +562,7 @@ layout: center
 ## Stateless vs. stateful streaming
 
 <!--
-Let's have a deeper look at what we do when developing  streaming applications, at the operations we perform. Filter, Map and reduce
+Let's have a deeper look at what we do when developing streaming applications, at the operations we perform. Filter, Map, and reduce
 
 -->
 
@@ -598,13 +599,13 @@ Filtering => operates on a single event => trivial
 Mapping => operates on a single event => trivial
 
 [click]
-windowing => hm – we need to consider multiple events in a time- or count-window
+Windowing => hm – we need to consider multiple events in a time- or count-window
 
 [click]
-CEP => The order matters => also multiple events need to be considers
+CEP => The order matters => also multiple events need to be considered
 
 [click]
-whenever we need information about more than the current event, we need state.
+Whenever we need information about more than the current event, we need state.
 
 [click]
 That's not bad – it's just complex to scale (or reach zero-downtime)
@@ -622,7 +623,7 @@ layout: two-cols
 
 **Stateless** processing
 
-- Restricted to One-By-One-processing
+- Restricted to One-By-One processing
 - Filtering
 - Mapping (data enrichment)
 
@@ -641,7 +642,7 @@ layout: two-cols
 <!--
 What about Spring Cloud, Node-Streams, AWS SNS + Lambda? All are
 **Stateless**
-- All these solutions don't offer built-in-options for state
+- All these solutions don't offer built-in options for state
 - State is managed by the DBMS (or Kafka, looking at Kafka-streams)
 - State resides on disk
 - Simple to scale
@@ -670,13 +671,13 @@ layout: center
 
 <!--
 
-Recalling the unhappy triangle of rest earlier, we can also see a very similar conflict-sphere for streaming.
+Recalling the unhappy triangle of REST earlier, we can also see a very similar conflict-sphere for streaming.
 
 [click]
-Major difference compared to the RESTful dilemma are the consqueneces (such as backpressure on the server side vompared to dropped requests). But satisfying all dimensions is really tough!
+Major difference compared to the RESTful dilemma are the consequences (such as backpressure on the server side compared to dropped requests). But satisfying all dimensions is really tough!
 
 [click]
-That's where Apache Flink claims its spot. What features it's got and how they contribute to achieving **one-at-a-time, scalable and stateful calculations** will be subject of the remaining slides.
+That's where Apache Flink claims its spot. What features it's got and how they contribute to achieving **one-at-a-time, scalable, and stateful calculations** will be the subject of the remaining slides.
 
 -->
 ---
@@ -719,12 +720,12 @@ layout: center
 
 #### Event Driven Applications
 
-![Event driven Application Architecture](/spaf_0105.png)
+![Event-driven Application Architecture](/spaf_0105.png)
 
 <ImageSource work="spaf" />
 
 <!--
-Event-driven applications are stateful streaming applications that ingest event streams and process the events with application-specific business logic. Depending on the business logic, an event-driven application can trigger actions such as sending an alert or an email or write events to an outgoing event stream to be consumed by another event-driven application.
+Event-driven applications are stateful streaming applications that ingest event streams and process the events with application-specific business logic. Depending on the business logic, an event-driven application can trigger actions such as sending an alert or an email or writing events to an outgoing event stream to be consumed by another event-driven application.
 
 Event-driven applications are an evolution of microservices. They communicate via event logs instead of REST calls and hold application data as local state instead of writing it to and reading it from an external datastore
 
@@ -749,9 +750,9 @@ _Source: Stream Processing with Apache Flink by Fabian Hueske_
 Traditional Lambda-Architectures have significant drawbacks:
 
 - it requires two semantically equivalent implementations of the application logic for two separate processing systems with different APIs.
-- the results computed by the stream processor are only approximate (might be overridden as the Batch-results are available).
+- the results computed by the stream processor are only approximate (might be overridden as the Batch results are available).
 
-The Third-Gen-Stream-Processors** addressed the dependency of results on the timing and order of arriving events**. In combination with **exactly-once failure semantics**, systems of this generation are the first open source stream processors capable of computing consistent and accurate results.
+The Third-Gen Stream Processors addressed the dependency of results on the timing and order of arriving events. In combination with **exactly-once failure semantics**, systems of this generation are the first open-source stream processors capable of computing consistent and accurate results.
 -->
 
 ---
@@ -781,7 +782,7 @@ Apache Flink solves a lot of issues you might not even be aware of you've actual
 - Low latency
 - Consistency guarantees
 - Data locality and Scalability
-- A Stream-First-Application programming model
+- A Stream-First Application programming model
 
 <!--
 Apache Flink is a third-generation distributed stream processor with a competitive feature set. It provides **accurate stream processing with high throughput and low latency at scale**. In particular, the following features make Flink stand out:
@@ -792,7 +793,7 @@ Apache Flink is a third-generation distributed stream processor with a competiti
 
 **Millisecond latencies** while processing millions of events per second. Flink applications can be scaled to run on thousands of cores.
 
-**Layered APIs** with varying tradeoffs for expressiveness and ease of use.
+**Layered APIs** with varying trade-offs for expressiveness and ease of use.
 
 **Connectors** to the most commonly used storage systems such as Apache Kafka, Apache Cassandra, Elasticsearch, JDBC, Kinesis, and (distributed) filesystems such as HDFS and S3.
 
@@ -829,7 +830,7 @@ layout: center
 <!--
 Watermarks are determined (extracted) from records.
 
-**When** they will be emitted, can be configured / implemented.
+**When** they will be emitted, can be configured/implemented.
 Watermarks are special markers in the data stream that indicate the progress of event time.
 
 They are used to handle out-of-order events in stream processing and help the system to determine when it can safely process and emit results for a particular window, even if some events are slightly delayed.
@@ -853,7 +854,7 @@ My mom says
 
 As software developers, we can say
 
-**Real-time** is to process Data as soon as it's emitted
+**Real-time** is to process data as soon as it's emitted
 
 **Latency** defines how long the consumer has to wait until the processing has terminated
 
@@ -887,8 +888,8 @@ layout: two-cols
 </template>
 
 <!--
-Having data local at the same node in-memory will speed up our **read times by factor 1000**
-This is important, since in **one-by-one-processing**, we constantly access data.
+Having data local at the same node in-memory will speed up our **read times by a factor of 1000**
+This is important, since in **one-by-one processing**, we constantly access data.
 
 "Local" means that the physical memory in which the data resides **on the same compute node** where the physical CPU hosts the computation over this data.
 
@@ -904,7 +905,7 @@ layout: statement
 Alright, let's keep data local. But what do we do if we scale horizontally?
 
 <!--
-Scaling horizontally means **adding new nodes** to which compute-demands/traffic is routed.
+Scaling horizontally means **adding new nodes** to which compute demands/traffic is routed.
 
 When keeping state local, this means that the scaling process needs to be aware of where data is being processed.
 -->
@@ -928,7 +929,7 @@ layout: two-cols
 <!--
 Flink allows developers to partition a stream by a logical key.
 
-All operations on a keyed stream will respect data locality: The operator instance of a Flink computational graph will get all items of the keyed stream which has the same key.
+All operations on a keyed stream will respect data locality: The operator instance of a Flink computational graph will get all items of the keyed stream which have the same key.
 -->
 
 ---
@@ -962,9 +963,9 @@ layout: center
     }
 </style>
 
-A checkpoint is a **consistent** snapshot the application's state. taken at a regular **schedule**.
+A checkpoint is a **consistent** snapshot of the application's state, taken at a regular **schedule**.
 
-I serves as a starting point for a failed system to **recover from**.
+It serves as a starting point for a failed system to **recover from**.
 
 ---
 layout: two-cols
@@ -988,10 +989,10 @@ layout: two-cols
 <v-click>
 <h5>Flink's checkpointing</h5>
 
-1. Inject Checkpoint Barriers into stream
-2. Job manager initiates checkpoint
+1. Inject Checkpoint Barriers into the stream
+2. Job manager initiates the checkpoint
 3. Each operator externalizes its state
-4. Once all operators acknowledged, the checkpoint is consistent
+4. Once all operators acknowledge, the checkpoint is consistent
 
 </v-click>
 
@@ -1004,7 +1005,7 @@ Instead, Flink implements checkpointing based on the Chandy–Lamport algorithm 
 
 Flink’s checkpointing algorithm uses a special type of record called a checkpoint barrier. Similar to watermarks, checkpoint barriers are injected by source operators into the regular stream of records and cannot overtake or be passed by other records. A checkpoint barrier carries a checkpoint ID to identify the checkpoint it belongs to and logically splits a stream into two parts. All state modifications due to records that precede a barrier are included in the barrier’s checkpoint and all modifications due to records that follow the barrier are included in a later checkpoint.
 
-The same mechanism can also be used for **savepoints**, which allow to externalize state at defined points in time (e.g., prior to an application upgrade)
+The same mechanism can also be used for **savepoints**, which allow externalizing state at defined points in time (e.g., prior to an application upgrade)
 -->
 </template>
 
@@ -1028,11 +1029,11 @@ Apache Flink solves a lot of issues you might not even be aware of you've actual
 <!--
 Stream processing requires a **different mental model** compared to state-oriented application programming models.
 
-Also, there's an **"event" in "eventual consistency"**. While Flink will make sure, that in the end, everything is processed consistently, there might be steps in between where some parts have been processed, while others are still pending. This may require explanations to the user on the UI.
+Also, there's an **"event" in "eventual consistency"**. While Flink will make sure that in the end, everything is processed consistently, there might be steps in between where some parts have been processed, while others are still pending. This may require explanations to the user on the UI.
 
-Observing, how a continuously running application behaves requires appropriate metrics. They deviate from what's common to observe for restful applications.
+Observing how a continuously running application behaves requires appropriate metrics. They deviate from what's common to observe for restful applications.
 
-The way, job manager and task manager interact, also with the state-backend, is not easy to understand. It's deeply integrated into the tooling.
+The way job manager and task manager interact, also with the state backend, is not easy to understand. It's deeply integrated into the tooling.
 -->
 
 ---
@@ -1042,7 +1043,7 @@ The way, job manager and task manager interact, also with the state-backend, is 
 <v-clicks>
 
 - Acknowledge it's a tricky problem
-- Start small in functional scope, but realistic wrt volume
+- Start small in functional scope, but realistic with respect to volume
 - Include the other elements of the streaming architecture (Schema Registry!)
 - Set up custom metrics from the beginning
 - Start with a Managed Service (AWS or Azure)
@@ -1061,17 +1062,17 @@ Flink provides multiple APIs for different use cases, has great documentation, b
 A major benefit of Flink is **performance and scalability**. But this only works when employed properly. Pick use cases which stress your system right from the beginning.
 
 [click]
-As pictured earlier, Flink ~~is~~ can be the central piece of your streaming architecture. But don't forget the other pieces and how to bring them together. A **schema registry** might save you from tedious serialization issues down the stream, if you implement them from beginning.
+As pictured earlier, Flink ~~is~~ can be the central piece of your streaming architecture. But don't forget the other pieces and how to bring them together. A **schema registry** might save you from tedious serialization issues down the stream if you implement them from the beginning.
 
 [click]
-Flink has an **awesome metrics system** which export very detailed information about the state of processing (offset lags, backpressure, parallelism)
+Flink has an **awesome metrics system** which exports very detailed information about the state of processing (offset lags, backpressure, parallelism)
 The metrics system is also easily extensible: Write your own custom metrics to observe how your stream is doing.
 
 [click]
-Job manager, Task manager, State-Backend does not need to be understood in detail, as Flink abstracts all this provisioning of compute.
-This changes drastically, if you want to operate Flink on your own though. Then, you need to completely dive in to make it run elastically on your e.g., Kubernetes-Cluster.
+Job manager, Task manager, and State-Backend do not need to be understood in detail, as Flink abstracts all this provisioning of compute.
+This changes drastically if you want to operate Flink on your own though. Then, you need to completely dive in to make it run elastically on your e.g., Kubernetes-Cluster.
 
-There are operators for Kubernetes, Apache Mesos and bare metal installations, but safest is to **start with a managed service**. It might not suit your particular use case and could be optimized, but configuring them properly needs some experience.
+There are operators for Kubernetes, Apache Mesos, and bare metal installations, but safest is to **start with a managed service**. It might not suit your particular use case and could be optimized, but configuring them properly needs some experience.
 -->
 
 ---
@@ -1099,7 +1100,7 @@ layout: center
 <!--
 **Because Apache Flink is made for this**
 
-There are challenges to be solved, but there's always a Flink-native solution to it. Because it's a **mature** and **battle proven** technology.
+There are challenges to be solved, but there's always a Flink-native solution to it. Because it's a **mature** and **battle-proven** technology.
 -->
 
 ---
@@ -1114,3 +1115,4 @@ https://flink.apache.org/
 <img alt="Stream Processing with Apache Flink by Fabian Hueske and Vasiliki Kalavri" src="/spaf_cover.png" class="h-90" />
 
 </template>
+```
